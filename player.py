@@ -9,8 +9,16 @@ class Player():
         self.boxes_opened = 0
         self.old_3d_printer = False
         self.tutorial_completed = False
-        
+
+    def spend_money(self, amount):
+        if amount <= self.money:
+            self.money -= amount 
+        else:
+            pass            #add error message later  
 
 
-    def update_money(self, amount):
+    def add_money(self, amount):
         self.money += amount
+    
+    def get_money(self):
+        return self.money

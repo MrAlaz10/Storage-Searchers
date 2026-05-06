@@ -3,8 +3,9 @@ from ui import GameApp
 
 
 def main():
-    GameApp(tk.Tk()).main_menu()
     root = tk.Tk()
+    app = GameApp(root)
+    app.main_menu()
     root.mainloop()
 
 if __name__ == "__main__":

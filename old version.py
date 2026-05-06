@@ -80,31 +80,6 @@ def play_game():
     write(background_screen, f"\n\n\nStorage Lot", True, "center")
 
 
-def intro_screen():
-    background_screen.configure(state="normal")
-    background_screen.delete("1.0", tk.END)
-    play_button.place_forget()
-    quit_button.place_forget()
-    settings_button.place_forget()
-    continue_button.place(relx=0.5, rely=0.9, anchor="center", width=150, height=50)
-    write(background_screen,
-          f"\n\n\n\nWelcome to Storage Searchers, you've just lost \nyour job and taken everything out of your bank \naccount in order to fulfill a lifelong \ndream. Become rich. Buy a storage unit and pray \nto your god there's something valuable in it.",
-          True, "center")
-
-
-def tutorial_unit():
-    global boxes_opened, current_state
-    current_state = "tutorial"
-    background_screen.config(state="normal")
-    background_screen.delete("1.0", tk.END)
-    background_screen.config(bg="dimgray")
-    hud.place(rely=0.95, relx=0.5, anchor="center")
-    continue_button.place_forget()
-    inventory_button.place(relx=0.7, rely=0.9, width=150, height=50)
-    write(background_screen, "\nGrandpa's Storage", True, "center")
-    spawn_boxes(6)
-
-
 def generate_loot(amount_to_roll):
     rolled_items = []
     for index in range(amount_to_roll):
@@ -226,22 +201,6 @@ def spawn_boxes(max_amount):
     hud.lift()
 
 
-def quit_game():
-    root.destroy()
-
-
-def settings():
-    background_screen.configure(state="normal")
-    background_screen.delete("1.0", tk.END)
-    play_button.place_forget()
-    quit_button.place_forget()
-    settings_button.place_forget()
-    write(background_screen, "\nSettings", True, "center")
-
-
-
-
-hud = tk.Label(root, bg="gray", fg="white", text=f"${money}", font=("Fixedsys", 16))
 inventory_label = tk.Label(root, bg="black", fg="white", font=("Fixedsys", 16))
 error_label = tk.Label(root, bg="black", fg="red", text="ERROR", font=("Fixedsys", 20))
 

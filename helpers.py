@@ -1,3 +1,5 @@
+import tkinter as tk
+
 def write(screen, text, newline=True, tag=None, color="white"):
     screen.configure(state="normal")
     if newline:
