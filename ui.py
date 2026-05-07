@@ -1,21 +1,28 @@
-from player import get_money()
+from player import Player
 from helpers import write
+from storage_unit import StorageUnit
 import tkinter as tk
 
 class GameApp():
     def __init__(self, root):
         self.root = root
+
+        
+        self.storage_unit = StorageUnit(root)
         self.root.title("Storage Searchers")
         self.root.geometry("800x700")
         self.root.configure(bg="black")
-
-        self.hud = tk.Label(root, bg="gray", fg="white", text=f"${self.money}", font=("Fixedsys", 16))
-        self.continue_button = tk.Button(self.root, text="Continue", command=self.tutorial_unit, background="white", fg="black")
+        
+        self.background_screen = tk.Text(self.root, padx=5, pady=5, background="black", foreground="white", font=("Fixedsys", 18))
+        self.hud = tk.Label(root, bg="gray", fg="white", text=f"$0000", font=("Fixedsys", 16))
+        self.continue_button = tk.Button(self.root, text="Continue", command=self.get_name, background="white", fg="black")
+        self.inventory_button = tk.Button(self.root, text="Inventory", command=self.show_inventory, background="white", foreground="black")
+        #inventory_back_button = tk.Button(self.root, text="Back", command=return_from_inventory, background="white", foreground="black")
+        
+        self.background_screen.tag_configure("center", justify="center")
 
         
     def main_menu(self):
-        self.background_screen = tk.Text(self.root, padx=5, pady=5, background="black", foreground="white", font=("Fixedsys", 18))
-        self.background_screen.tag_configure("center", justify="center")
 
         self.play_button = tk.Button(self.root, text="Play", command=self.intro_screen, background="white", foreground="black")
         self.quit_button = tk.Button(self.root, text="Quit", command=self.quit_game, background="white", foreground="black")
@@ -31,10 +38,7 @@ class GameApp():
     def show_inventory(self):
         pass
         #continue_button = tk.Button(self.root, text="Continue", command=tutorial_unit, background="white", foreground="black")
-        #inventory_button = tk.Button(self.root, text="Inventory", command=show_inventory, background="white", foreground="black")
-        #inventory_back_button = tk.Button(self.root, text="Back", command=return_from_inventory, background="white",
-                                        #foreground="black")
-        
+
     
     def intro_screen(self):        
         self.background_screen.configure(state="normal")
@@ -47,16 +51,36 @@ class GameApp():
             f"\n\n\n\nWelcome to Storage Searchers, you've just lost \nyour job and taken everything out of your bank \naccount in order to fulfill a lifelong \ndream. Become rich. Buy a storage unit and pray \nto your god there's something valuable in it.",
             True, "center")
     
+    def get_name(self):
+        self.background_screen.configure(state="normal")
+        self.background_screen.delete("1.0", tk.END)
+        self.continue_button.place_forget()
+        self.name_entry = tk.Entry(self.root, font=("Fixedsys", 16), justify="center")
+        self.name_entry.place(relx=0.5, rely=0.5, anchor="center", width=200, height=40)
+        self.name_entry_button = tk.Button(self.root, text="Continue", command=self.tutorial_unit)
+        self.name_entry_button.place(relx=0.5, rely=0.6, anchor="center", width=150, height=50)
+        self.name_entry.focus_set()
+        player_name = self.name_entry.get()
+        self.player_name = player_name
+        player = Player(self.player_name)
+    
     def tutorial_unit(self):
         
         self.background_screen.config(state="normal")
         self.background_screen.delete("1.0", tk.END)
         self.background_screen.config(bg="dimgray")
         self.hud.place(rely=0.95, relx=0.5, anchor="center")
-        self.continue_button.place_forget()
+        self.name_entry.place_forget()
+        self.name_entry_button.place_forget()
         self.inventory_button.place(relx=0.7, rely=0.9, width=150, height=50)
         write(self.background_screen, "\nGrandpa's Storage", True, "center")
-        #spawn_boxes(6)
+        self.storage_unit.spawn_boxes(6)
+    
+    def auction_lot(self):
+        pass
+
+    def open_shop(self):
+        pass
         
     
     def quit_game(self):
