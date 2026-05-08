@@ -5,8 +5,8 @@ from player import Player
 
 def main():
     root = tk.Tk()
-    #player = Player()
-    app = GameApp(root)
+    player = Player()
+    app = GameApp(root, player)
     app.main_menu()
     root.mainloop()
 

@@ -1,12 +1,16 @@
 from constants import box_colors
 from helpers import write
+from player import Player
 import tkinter as tk
 import random
 from loot import *
+#from ui import GameApp
 
 class StorageUnit:
-    def __init__(self, root):
+    def __init__(self, root, player, game_app):
         self.root = root
+        self.player = player
+        self.game_app = game_app
         self.active_boxes = {}
         self.unit_prices = [150, 300, 500, 600, 800, 1000]
 
@@ -31,27 +35,41 @@ class StorageUnit:
         button.place_forget()
         del self.active_boxes[button]
         items_amount = random.randint(3, 5)
-        if boxes_opened == 10:
+        if self.player.boxes_opened == 10:
             loot = ["old 3D printer", "used filament spool"]
-            self.filament += 100
-            self.old_3d_printer = True
+            self.player.filament += 100
+            self.player.old_3d_printer = True
         else:
             loot = self.generate_loot(items_amount)
             for item in loot:
-                if item in self.inventory:
-                    self.inventory[item] += 1
-                elif item in self.junk:
+                if item in self.player.inventory:
+                    self.player.inventory[item] += 1
+                elif item in junk:
                     pass
                 else:
-                    self.inventory[item] = 1
+                    self.player.inventory[item] = 1
         for item in loot:
-            write(self.background_screen, item, True, "center")
-        if current_state == "tutorial":
-            if boxes_opened == 6:
-                self.continue_button.config(command=self.play_game)
-                self.continue_button.place(relx=0.1, rely=0.9, width=150, height=50)
+            write(self.game_app.background_screen, item, True, "center")
+        if self.player.current_state == "tutorial":
+            if self.player.boxes_opened == 6:
+                self.game_app.continue_button.config(command=self.game_app.play_game)
+                self.game_app.continue_button.place(relx=0.1, rely=0.9, width=150, height=50)
                 self.active_boxes = {}
-        elif current_state == "open unit":
-            if self.temp_boxes_opened == self.box_amount:
-                self.continue_button.config(command=self.play_game)
-                self.continue_button.place(relx=0.1, rely=0.9, width=150, height=50)
+        elif self.player.current_state == "open unit":
+            if self.player.temp_boxes_opened == self.box_amount:
+                self.game_app.continue_button.config(command=self.game_app.play_game)
+                self.game_app.continue_button.place(relx=0.1, rely=0.9, width=150, height=50)
+        
+    def generate_loot(self, amount_to_roll):
+        rolled_items = []
+        for index in range(amount_to_roll):
+            percentage = random.uniform(0.0, 1.0)
+            if percentage < 0.6:
+                rolled_items.append(random.choice(junk))
+            elif percentage < 0.9:
+                rolled_items.append(random.choice(box_items_common))
+            elif percentage < 0.98:
+                rolled_items.append(random.choice(box_items_rare))
+            else:
+                rolled_items.append(random.choice(box_items_legendary))
+        return rolled_items

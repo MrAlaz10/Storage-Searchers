@@ -4,17 +4,18 @@ from storage_unit import StorageUnit
 import tkinter as tk
 
 class GameApp():
-    def __init__(self, root):
+    def __init__(self, root, player):
         self.root = root
+        self.player = player
 
-        
-        self.storage_unit = StorageUnit(root)
+        self.storage_unit = StorageUnit(root, player, self)
         self.root.title("Storage Searchers")
         self.root.geometry("800x700")
         self.root.configure(bg="black")
         
         self.background_screen = tk.Text(self.root, padx=5, pady=5, background="black", foreground="white", font=("Fixedsys", 18))
-        self.hud = tk.Label(root, bg="gray", fg="white", text=f"$0000", font=("Fixedsys", 16))
+        self.unit_frame = tk.Frame(root, bg="gray")
+        self.hud = tk.Label(root, bg="gray", fg="white", text=f"${self.player.money}", font=("Fixedsys", 16))
         self.continue_button = tk.Button(self.root, text="Continue", command=self.get_name, background="white", fg="black")
         self.inventory_button = tk.Button(self.root, text="Inventory", command=self.show_inventory, background="white", foreground="black")
         #inventory_back_button = tk.Button(self.root, text="Back", command=return_from_inventory, background="white", foreground="black")
@@ -23,6 +24,7 @@ class GameApp():
 
         
     def main_menu(self):
+        self.player.current_state = "main menu"
 
         self.play_button = tk.Button(self.root, text="Play", command=self.intro_screen, background="white", foreground="black")
         self.quit_button = tk.Button(self.root, text="Quit", command=self.quit_game, background="white", foreground="black")
@@ -36,10 +38,25 @@ class GameApp():
         self.settings_button.place(relx=0.5, rely=0.6, anchor="center", width=150, height=50)
 
     def show_inventory(self):
-        pass
-        #continue_button = tk.Button(self.root, text="Continue", command=tutorial_unit, background="white", foreground="black")
+        self.continue_button.place_forget()
+        if self.player.current_state != "main lot" and self.player.current_state == "tutorial":
+            for box in self.storage_unit.active_boxes:
+                box.place_forget()
+        elif self.player.current_state == "main lot":
+            self.storage_unit.unit_frame.place_forget()
+        elif self.player.current_state == "open unit":
+            for box in self.storage_unit.active_boxes:
+                box.place_forget()
+        self.background_screen.config(state="normal")
+        self.background_screen.delete("1.0", tk.END)
+        self.background_screen.config(bg="black")
+        self.inventory_back_button.place(relx=0.7, rely=0.9, width=150, height=50)
+        write(self.background_screen, f"\n\nInventory:\n{self.player.inventory}\n\n\n{self.player.boxes_opened}\n\n\n\nFilament: {self.player.filament}", True, "center")
 
-    
+    def return_from_inventory(self):
+        pass
+
+
     def intro_screen(self):        
         self.background_screen.configure(state="normal")
         self.background_screen.delete("1.0", tk.END)
@@ -62,9 +79,10 @@ class GameApp():
         self.name_entry.focus_set()
         player_name = self.name_entry.get()
         self.player_name = player_name
-        player = Player(self.player_name)
+        #player = Player(self.player_name)
     
     def tutorial_unit(self):
+        self.player.current_state = "tutorial"
         
         self.background_screen.config(state="normal")
         self.background_screen.delete("1.0", tk.END)
@@ -75,9 +93,14 @@ class GameApp():
         self.inventory_button.place(relx=0.7, rely=0.9, width=150, height=50)
         write(self.background_screen, "\nGrandpa's Storage", True, "center")
         self.storage_unit.spawn_boxes(6)
+        self.hud.lift()
     
     def auction_lot(self):
         pass
+
+    def open_unit(self):
+        self.player.current_state = "open unit"
+
 
     def open_shop(self):
         pass
