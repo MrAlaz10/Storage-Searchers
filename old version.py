@@ -89,9 +89,7 @@ def return_from_inventory():
         hud.place(rely=0.95, relx=0.5, anchor="center")
         inventory_back_button.place_forget()
         inventory_button.place(relx=0.7, rely=0.9, width=150, height=50)
-        if boxes_opened == 6:
-            continue_button.config(command=play_game)
-            continue_button.place(relx=0.1, rely=0.9, width=150, height=50)
+
         write(background_screen, "\nGrandpa's Storage", True, "center")
     elif current_state == "main lot":
         background_screen.configure(state="normal")

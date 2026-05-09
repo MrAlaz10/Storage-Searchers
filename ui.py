@@ -94,6 +94,9 @@ class GameApp():
         write(self.background_screen, "\nGrandpa's Storage", True, "center")
         self.storage_unit.spawn_boxes(6)
         self.hud.lift()
+        #if self.player.boxes_opened == 6:
+            #self.continue_button.config(command=self.auction_lot())
+            #self.continue_button.place(relx=0.1, rely=0.9, width=150, height=50)
     
     def auction_lot(self):
         pass

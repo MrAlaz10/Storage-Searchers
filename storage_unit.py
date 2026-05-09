@@ -34,6 +34,7 @@ class StorageUnit:
     def open_box(self, button):
         button.place_forget()
         del self.active_boxes[button]
+        self.player.boxes_opened += 1
         items_amount = random.randint(3, 5)
         if self.player.boxes_opened == 10:
             loot = ["old 3D printer", "used filament spool"]
@@ -52,12 +53,12 @@ class StorageUnit:
             write(self.game_app.background_screen, item, True, "center")
         if self.player.current_state == "tutorial":
             if self.player.boxes_opened == 6:
-                self.game_app.continue_button.config(command=self.game_app.play_game)
+                self.game_app.continue_button.config(command=self.game_app.auction_lot())
                 self.game_app.continue_button.place(relx=0.1, rely=0.9, width=150, height=50)
                 self.active_boxes = {}
         elif self.player.current_state == "open unit":
             if self.player.temp_boxes_opened == self.box_amount:
-                self.game_app.continue_button.config(command=self.game_app.play_game)
+                self.game_app.continue_button.config(command=self.game_app.auction_lot())
                 self.game_app.continue_button.place(relx=0.1, rely=0.9, width=150, height=50)
         
     def generate_loot(self, amount_to_roll):
