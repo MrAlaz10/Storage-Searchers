@@ -47,8 +47,15 @@ valuables_price = {
     "important documents": 200,
     "smart watch": 250,
     "drone": 350,
-    "desktop computer": 1000,
-    "laptop": 1200
+    "desktop computer": 1500,
+    "laptop": 800
+}
+
+craftable_recipes = {
+    "bluetooth headphones": {"small battery": 2, "small speaker": 2},
+    "bluetooth speaker": {"medium battery": 1, "large speaker": 2},
+    "laptop": {"processor": 1, "ram": 1, "solid state drive": 1, "motherboard": 1, "monitor": 1, "small speaker": 2, "medium battery": 1, "computer fan": 1},
+    "desktop computer": {"computer fan": 4, "processor": 1, "ram": 2, "solid state drive": 1, "motherboard": 1, "monitor": 1, "graphics card": 1, "mechanical keyboard": 1, "power supply": 1}
 }
 
 filament_cost = {
@@ -57,3 +64,5 @@ filament_cost = {
     "bluetooth headphones": 50, 
     "laptop": 350
 }
+
+##### filament is 0.10 cents per unit, so 100 filament = $10, 500 filament = $50, etc. #####
