@@ -30,6 +30,7 @@ class GameApp():
         
         self.background_screen = tk.Text(self.root, padx=5, pady=5, background="black", foreground="white", font=("Fixedsys", 18))
         self.unit_frame = tk.Frame(root, bg="gray")
+        self.crafting_frame = tk.Frame(root, bg="black")
         self.error_label = tk.Label(root, bg="black", fg="red", text="ERROR", font=("Fixedsys", 20))
         self.hud = tk.Label(root, bg="gray", fg="white", text=f"${self.player.money}", font=("Fixedsys", 16))
         self.continue_button = tk.Button(self.root, text="Continue", command=self.get_name, background="white", fg="black")
@@ -106,6 +107,7 @@ class GameApp():
         self.continue_button.place_forget()
         self.save_quit.place_forget()
         self.shop_button.place_forget()
+        self.crafting_button.place_forget()
         
         self.crafted_items_button.place(relx=0.1, rely=0.1, width=150, height=50)
         
@@ -200,6 +202,8 @@ class GameApp():
             self.save_quit.place(relx=0.1, rely=0.1, width=150, height=50)
             self.inventory_button.place(relx=0.7, rely=0.9, width=150, height=50)
             self.shop_button.place(relx=0.7, rely=0.1, width=150, height=50)
+            if self.player.old_3d_printer == True:
+                self.crafting_button.place(relx=0.7, rely=0.15, width=150, height=50)
             
             write(self.background_screen, f"\n\n\nStorage Lot", True, "center")
         
@@ -284,7 +288,8 @@ class GameApp():
         self.inventory_button.place(relx=0.7, rely=0.9, width=150, height=50)
         self.save_quit.place(relx=0.1, rely=0.1, width=150, height=50)
         self.shop_button.place(relx=0.7, rely=0.1, width=150, height=50)
-        self.crafting_button.place(relx=0.7, rely=0.15, width=150, height=50)
+        if self.player.old_3d_printer == True:
+            self.crafting_button.place(relx=0.7, rely=0.15, width=150, height=50)
 
         # enumerate() gives us BOTH the position (index: 0, 1, 2...) AND the value (price: 150, 300...)
         for index, price in enumerate(self.storage_unit.unit_prices):
@@ -337,6 +342,7 @@ class GameApp():
         self.save_quit.place_forget()
         self.shop_button.place_forget()
         self.unit_frame.place_forget()
+        self.crafting_button.place_forget()
         
         self.inventory_back_button.place(relx=0.7, rely=0.9, width=150, height=50)
         self.inventory_back_button.config(command=self.auction_lot)
@@ -444,5 +450,10 @@ class GameApp():
         
         self.inventory_back_button.place(relx=0.7, rely=0.9, width=150, height=50)
         self.inventory_back_button.config(command=self.auction_lot)
+        
+        for item in 
+            craft_items_button = tk.Button(self.crafting_frame, text=btn_text, 
+                                       bg="white", fg="black", width=15, height=5, state=btn_state )
+            self.crafting_frame.place(relx=0.5, rely=0.5)
         
         write(self.background_screen, f"\n\nCrafting Screen is currently under construction!", True, "center")
