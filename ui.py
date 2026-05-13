@@ -3,7 +3,7 @@ import os
 import random
 from loot import *
 from player import Player
-from helpers import write
+from helpers import write, check_can_craft, craft_item
 from storage_unit import StorageUnit
 from constants import font_colors
 from shop import Shop
@@ -451,9 +451,17 @@ class GameApp():
         self.inventory_back_button.place(relx=0.7, rely=0.9, width=150, height=50)
         self.inventory_back_button.config(command=self.auction_lot)
         
-        for item in 
+        for index, item in enumerate(craftable_recipes):
+            btn_text = item
+            btn_state = tk.NORMAL if check_can_craft(self.player, item) else tk.DISABLED
+            
             craft_items_button = tk.Button(self.crafting_frame, text=btn_text, 
                                        bg="white", fg="black", width=15, height=5, state=btn_state )
-            self.crafting_frame.place(relx=0.5, rely=0.5)
+            
+            craft_items_button.configure(command=lambda i=item: craft_item(self.player,i))
+            craft_items_button.grid(row=index // 2, column=index % 2, padx=10, pady=10)
+
+
+        self.crafting_frame.place(relx=0.5, rely=0.5, anchor="center")
         
         write(self.background_screen, f"\n\nCrafting Screen is currently under construction!", True, "center")
